@@ -71,6 +71,7 @@ router.post(
     )
       .notEmpty()
       .isLength({ max: 255 }),
+    check("priority", 'Priority must not be "Default"').not().equals("Default"),
     check(["dueDate"], "Due date field shouldn't be empty").notEmpty(),
   ],
   async (req, res) => {
@@ -123,6 +124,7 @@ router.post(
     )
       .notEmpty()
       .isLength({ max: 255 }),
+    check("priority", 'Priority must not be "Default"').not().equals("Default"),
     check(["dueDate"], "Due date field shouldn't be empty").notEmpty(),
   ],
   async (req, res) => {
