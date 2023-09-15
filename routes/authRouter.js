@@ -1,7 +1,6 @@
 const Router = require("express");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const config = require("config");
 const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
 const router = new Router();
@@ -56,7 +55,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid password" });
     }
 
-    const token = jwt.sign({ id: user._id }, config.get("secretKey"), {
+    const token = jwt.sign({ id: user._id }, process.env.secretKey, {
       expiresIn: "1h",
     });
 
