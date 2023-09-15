@@ -71,12 +71,6 @@ router.post(
     )
       .notEmpty()
       .isLength({ max: 255 }),
-    check("priority").custom((value) => {
-      if (["Low", "Normal", "High"].includes(value)) {
-        return true;
-      }
-      throw new Error("Priority must be 'Low,' 'Normal,' or 'High'");
-    }),
     check(["dueDate"], "Due date field shouldn't be empty").notEmpty(),
   ],
   async (req, res) => {
@@ -129,12 +123,6 @@ router.post(
     )
       .notEmpty()
       .isLength({ max: 255 }),
-    check("priority").custom((value) => {
-      if (["Low", "Normal", "High"].includes(value)) {
-        return true;
-      }
-      throw new Error("Priority must be 'Low,' 'Normal,' or 'High'");
-    }),
     check(["dueDate"], "Due date field shouldn't be empty").notEmpty(),
   ],
   async (req, res) => {
