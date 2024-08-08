@@ -8,7 +8,14 @@ require("dotenv").config();
 
 const PORT = process.env.PORT || 5000;
 const app = express();
-app.use("*", cors());
+
+const corsOptions = {
+  origin: "https://task-scheduler-6cfad.web.app",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/task", auth, taskRouter);
