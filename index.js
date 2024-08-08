@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 const corsOptions = {
-  origin: "https://task-scheduler-6cfad.web.app",
+  origin: ["https://task-scheduler-6cfad.web.app", "https://task-scheduler-6cfad.firebaseapp.com"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
 };
