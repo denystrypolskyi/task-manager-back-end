@@ -7,7 +7,7 @@ const router = new Router();
 const authMiddleware = require("../middleware/auth");
 
 router.post(
-  "/registration",
+  "/register",
   [
     check("email", "Incorrect email address").isEmail(),
     check(
@@ -35,9 +35,9 @@ router.post(
       const user = new User({ email: email, password: hashPassword });
       await user.save();
       return res.json({ message: "User was created" });
-    } catch (e) {
-      console.log(e);
-      res.status(400).send({ message: "Server error" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Server error" });
     }
   }
 );
@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id }, process.env.secretKey, {
-      expiresIn: "1h",
+      expiresIn: "24h",
     });
 
     return res.json({
@@ -64,32 +64,27 @@ router.post("/login", async (req, res) => {
       user: {
         id: user._id,
         email: user.email,
-        avatar: user.avatar,
       },
     });
-  } catch (e) {
-    console.log(e);
-    res.send({ message: "Server error" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Server error" });
   }
 });
 
-router.get("/auth", authMiddleware, async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user.id });
-    const token = jwt.sign({ id: user._id }, process.env.secretKey, {
-      expiresIn: "1h",
-    });
+    
     return res.json({
-      token,
       user: {
         id: user._id,
         email: user.email,
-        avatar: user.avatar,
       },
     });
-  } catch (e) {
-    console.log(e);
-    res.status(400).send({ message: "Server error" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Server error" });
   }
 });
 

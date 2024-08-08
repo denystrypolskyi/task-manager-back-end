@@ -1,16 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const authRouter = require("./routes/authRouter");
-const corsMiddleware = require("./middleware/cors");
+const cors = require("cors");
 const taskRouter = require("./routes/taskRouter");
+const auth = require("./middleware/auth");
 require("dotenv").config();
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 const app = express();
-app.use(corsMiddleware);
+app.use("*", cors());
 app.use(express.json());
 app.use("/api/auth", authRouter);
-app.use("/api/task", taskRouter);
+app.use("/api/task", auth, taskRouter);
 
 const start = async () => {
   try {
@@ -18,8 +19,8 @@ const start = async () => {
     app.listen(PORT, () => {
       console.log("Server started on port ", PORT);
     });
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.error(error);
   }
 };
 
